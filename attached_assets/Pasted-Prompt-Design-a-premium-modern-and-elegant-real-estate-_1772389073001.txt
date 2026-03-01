@@ -1,0 +1,189 @@
+Prompt:
+
+Design a premium, modern, and elegant real estate aggregator website layout for coworking spaces.
+The design should feel luxurious, clean, minimal, and corporate with smooth micro-animations and hover effects.
+
+The website includes three core product categories:
+
+Virtual Office
+
+Coworking Spaces
+
+Managed Offices
+
+Use a sophisticated color palette (white, charcoal, soft beige, muted gold accents or deep navy accents).
+
+The layout should include:
+
+🏠 1. Hero Section
+
+Full-width cinematic background (modern office interior)
+
+Subtle parallax effect
+
+Animated headline:
+“Find Your Perfect Workspace”
+
+Subheading with trust statement
+
+Smart search bar:
+
+Location
+
+Office Type
+
+Seating Capacity
+
+Budget
+
+CTA Button with hover glow animation
+
+Smooth fade-in entrance animation
+
+🏢 2. Dedicated Product Sections (Separate Blocks)
+
+Create three visually distinct sections:
+
+A. Virtual Office
+
+Clean corporate visual
+
+Features grid (GST Registration, Business Address, Mail Handling)
+
+Hover animation on cards (lift + shadow)
+
+CTA: “Explore Virtual Offices”
+
+B. Coworking Spaces
+
+Vibrant, energetic design
+
+Grid-based listing preview cards
+
+Image hover zoom
+
+Price highlight badge
+
+Rating + Amenities icons
+
+C. Managed Offices
+
+Premium corporate tone
+
+Dark background with elegant typography
+
+Smooth slide-in animation
+
+Feature highlights (Private, Customizable, Enterprise-ready)
+
+🔎 3. Advanced Filter Section
+
+Create a modern filter sidebar or top floating filter bar with:
+
+City
+
+Price Range Slider (Animated)
+
+Seating Capacity
+
+Amenities (Checkbox grid)
+
+Availability
+
+Instant Booking toggle
+
+Use smooth transition effects when filters are applied.
+
+🗺 4. Map + Listing View Toggle
+
+Toggle between grid view and map view
+
+Google Maps style integration
+
+Animated pins
+
+Listing card appears on map hover
+
+💎 5. Featured Spaces Section
+
+Carousel with smooth sliding animation
+
+Premium card design
+
+Hover elevation + shadow
+
+“Featured” gold badge
+
+📊 6. Why Choose Us Section
+
+Animated counters
+
+Minimal iconography
+
+Fade-in on scroll
+
+🧑‍💼 7. Corporate CTA Section
+
+Dark elegant background with:
+
+Strong typography
+
+Subtle moving gradient
+
+CTA button with animated border
+
+🎨 Design Style Requirements
+
+Minimalist typography (Inter / Playfair mix)
+
+Large white spaces
+
+Rounded corners (2xl)
+
+Soft shadows
+
+Glassmorphism effect (subtle)
+
+Micro-interactions
+
+Smooth scroll animation
+
+Loading skeletons for listings
+
+Premium hover states (scale + shadow + subtle glow)
+
+⚡ Animation Requirements
+
+Scroll-triggered fade-in
+
+Card hover lift effect
+
+Button glow hover
+
+Image zoom on hover
+
+Smooth page transitions
+
+Filter transition animation
+
+📱 Responsive
+
+Fully responsive
+
+Sticky bottom search on mobile
+
+Collapsible filter drawer
+
+🧠 UX Goals
+
+Luxury positioning
+
+Trust-building
+
+High conversion
+
+Clean navigation
+
+Fast interaction
+
+Professional corporate feel
