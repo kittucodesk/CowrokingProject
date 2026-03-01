@@ -1,38 +1,64 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import {
+  workspaces,
+  type Workspace,
+  type InsertWorkspace,
+  type WorkspaceQueryParams
+} from "@shared/schema";
+import { eq, and, gte, lte, arrayContains } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getWorkspaces(params?: WorkspaceQueryParams): Promise<Workspace[]>;
+  getWorkspace(id: number): Promise<Workspace | undefined>;
+  createWorkspace(workspace: InsertWorkspace): Promise<Workspace>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+export class DatabaseStorage implements IStorage {
+  async getWorkspaces(params?: WorkspaceQueryParams): Promise<Workspace[]> {
+    let query = db.select().from(workspaces).$dynamic();
+    
+    if (params) {
+      const conditions = [];
+      
+      if (params.city) {
+        conditions.push(eq(workspaces.city, params.city));
+      }
+      if (params.type) {
+        conditions.push(eq(workspaces.type, params.type));
+      }
+      if (params.minPrice !== undefined) {
+        conditions.push(gte(workspaces.price, params.minPrice));
+      }
+      if (params.maxPrice !== undefined) {
+        conditions.push(lte(workspaces.price, params.maxPrice));
+      }
+      if (params.minCapacity !== undefined) {
+        conditions.push(gte(workspaces.capacity, params.minCapacity));
+      }
+      if (params.amenities && params.amenities.length > 0) {
+        conditions.push(arrayContains(workspaces.amenities, params.amenities));
+      }
+      if (params.available !== undefined) {
+        conditions.push(eq(workspaces.available, params.available));
+      }
 
-  constructor() {
-    this.users = new Map();
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+    }
+
+    return await query;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getWorkspace(id: number): Promise<Workspace | undefined> {
+    const [workspace] = await db.select().from(workspaces).where(eq(workspaces.id, id));
+    return workspace;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async createWorkspace(insertWorkspace: InsertWorkspace): Promise<Workspace> {
+    const [workspace] = await db.insert(workspaces).values(insertWorkspace).returning();
+    return workspace;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
