@@ -81,6 +81,18 @@ export default {
           busy: "rgb(239 68 68)",
           offline: "rgb(156 163 175)",
         },
+        charcoal: {
+          DEFAULT: "#121212",
+          light: "#1A1A1A",
+        },
+        gold: {
+          DEFAULT: "#D4AF37",
+          light: "#F3E5AB",
+        },
+        beige: {
+          DEFAULT: "#F9F9F7",
+          dark: "#E8E8E3",
+        }
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
