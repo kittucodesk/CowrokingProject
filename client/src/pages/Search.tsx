@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { SlidersHorizontal, Map as MapIcon, Grid3X3 } from "lucide-react";
+import { SlidersHorizontal, Map as MapIcon, Grid3X3, Search as SearchIcon } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WorkspaceCard } from "@/components/WorkspaceCard";
@@ -9,7 +9,7 @@ import { useWorkspaces } from "@/hooks/use-workspaces";
 export default function Search() {
   const [location] = useLocation();
   const searchParams = new URLSearchParams(window.location.search);
-  
+
   const [filters, setFilters] = useState({
     city: searchParams.get("city") || "",
     type: searchParams.get("type") || "",
@@ -48,15 +48,15 @@ export default function Search() {
       <div className="pt-28 pb-8 px-4 sm:px-6 lg:px-8 border-b border-border bg-white sticky top-0 z-30 shadow-sm mt-16 md:mt-0">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <h1 className="font-serif text-3xl font-semibold">Explore Spaces</h1>
-          
+
           <div className="flex items-center gap-3 bg-muted p-1.5 rounded-xl">
-            <button 
+            <button
               onClick={() => setViewMode("grid")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'grid' ? 'bg-white shadow-sm text-charcoal' : 'text-muted-foreground hover:text-charcoal'}`}
             >
               <Grid3X3 className="w-4 h-4" /> Grid
             </button>
-            <button 
+            <button
               onClick={() => setViewMode("map")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'map' ? 'bg-white shadow-sm text-charcoal' : 'text-muted-foreground hover:text-charcoal'}`}
             >
@@ -67,7 +67,7 @@ export default function Search() {
       </div>
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col lg:flex-row gap-8">
-        
+
         {/* Filters Sidebar */}
         <aside className="w-full lg:w-72 shrink-0">
           <div className="bg-white rounded-3xl p-6 border border-border sticky top-48">
@@ -79,18 +79,18 @@ export default function Search() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Location</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={filters.city}
                   onChange={(e) => handleFilterChange("city", e.target.value)}
-                  placeholder="e.g. New York" 
+                  placeholder="e.g. New York"
                   className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Workspace Type</label>
-                <select 
+                <select
                   value={filters.type}
                   onChange={(e) => handleFilterChange("type", e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all appearance-none cursor-pointer"
@@ -107,10 +107,10 @@ export default function Search() {
                   <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Max Price</label>
                   <span className="text-sm font-medium">${filters.maxPrice}</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="100" 
-                  max="10000" 
+                <input
+                  type="range"
+                  min="100"
+                  max="10000"
                   step="100"
                   value={filters.maxPrice}
                   onChange={(e) => handleFilterChange("maxPrice", e.target.value)}
@@ -120,11 +120,11 @@ export default function Search() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Min Capacity</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   value={filters.minCapacity}
                   onChange={(e) => handleFilterChange("minCapacity", e.target.value)}
-                  placeholder="e.g. 10" 
+                  placeholder="e.g. 10"
                   className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                 />
               </div>
@@ -143,11 +143,11 @@ export default function Search() {
           ) : workspaces?.length === 0 ? (
             <div className="bg-white rounded-3xl border border-border p-16 text-center">
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-muted-foreground" />
+                <SearchIcon className="w-8 h-8 text-muted-foreground" />
               </div>
               <h3 className="font-serif text-2xl font-medium mb-2">No spaces found</h3>
               <p className="text-muted-foreground">Try adjusting your filters to see more results.</p>
-              <button 
+              <button
                 onClick={() => setFilters({ city: "", type: "", minCapacity: "", maxPrice: "10000" })}
                 className="mt-6 text-[#D4AF37] font-medium hover:underline"
               >

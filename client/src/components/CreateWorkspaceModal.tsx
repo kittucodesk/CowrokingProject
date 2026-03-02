@@ -5,7 +5,7 @@ import { z } from "zod";
 import { X, Loader2, UploadCloud } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreateWorkspace } from "@/hooks/use-workspaces";
-import { api } from "@shared/routes";
+import { insertWorkspaceSchema } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 // Form schema with coercion for numeric fields
-const formSchema = api.workspaces.create.input.extend({
+const formSchema = insertWorkspaceSchema.extend({
   price: z.coerce.number().min(1, "Price is required"),
   capacity: z.coerce.number().min(1, "Capacity is required"),
   rating: z.coerce.number().min(0).max(5),
@@ -43,14 +43,15 @@ export function CreateWorkspaceModal({ trigger }: Props) {
       const amenities = data.amenitiesStr.split(",").map(s => s.trim()).filter(Boolean);
       await createMutation.mutateAsync({
         ...data,
+        rating: data.rating.toString(),
         amenities,
-      });
+      } as any);
       toast({ title: "Success", description: "Workspace listed successfully!" });
       setIsOpen(false);
       reset();
     } catch (err) {
-      toast({ 
-        title: "Error", 
+      toast({
+        title: "Error",
         description: err instanceof Error ? err.message : "Failed to create workspace",
         variant: "destructive"
       });
@@ -64,14 +65,14 @@ export function CreateWorkspaceModal({ trigger }: Props) {
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-charcoal/40 backdrop-blur-sm"
               onClick={() => setIsOpen(false)}
             />
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -80,7 +81,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
             >
               <div className="px-8 py-6 border-b border-border flex items-center justify-between bg-muted/30">
                 <h2 className="font-serif text-2xl font-semibold">List a New Space</h2>
-                <button 
+                <button
                   onClick={() => setIsOpen(false)}
                   className="w-8 h-8 rounded-full bg-white border border-border flex items-center justify-center hover:bg-muted transition-colors"
                 >
@@ -90,11 +91,11 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
               <div className="p-8 overflow-y-auto custom-scrollbar">
                 <form id="create-space-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Title</label>
-                      <input 
+                      <input
                         {...register("title")}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                         placeholder="e.g., Aura Premium Managed"
@@ -104,7 +105,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Type</label>
-                      <select 
+                      <select
                         {...register("type")}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                       >
@@ -118,7 +119,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Description</label>
-                    <textarea 
+                    <textarea
                       {...register("description")}
                       rows={3}
                       className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all resize-none"
@@ -130,7 +131,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">City</label>
-                      <input 
+                      <input
                         {...register("city")}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                         placeholder="e.g., New York"
@@ -140,7 +141,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Specific Location</label>
-                      <input 
+                      <input
                         {...register("location")}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                         placeholder="e.g., Financial District"
@@ -150,7 +151,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Monthly Price ($)</label>
-                      <input 
+                      <input
                         type="number"
                         {...register("price")}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
@@ -161,7 +162,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Capacity (People)</label>
-                      <input 
+                      <input
                         type="number"
                         {...register("capacity")}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
@@ -173,7 +174,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Amenities (comma separated)</label>
-                    <input 
+                    <input
                       {...register("amenitiesStr")}
                       className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                       placeholder="High-Speed WiFi, Coffee, Meeting Rooms"
@@ -183,7 +184,7 @@ export function CreateWorkspaceModal({ trigger }: Props) {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Image URL</label>
-                    <input 
+                    <input
                       {...register("imageUrl")}
                       className="w-full px-4 py-3 rounded-xl border border-border bg-transparent focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/20 transition-all"
                       placeholder="https://images.unsplash.com/..."
@@ -201,14 +202,14 @@ export function CreateWorkspaceModal({ trigger }: Props) {
               </div>
 
               <div className="px-8 py-6 border-t border-border bg-muted/30 flex justify-end gap-4">
-                <button 
+                <button
                   type="button"
                   onClick={() => setIsOpen(false)}
                   className="px-6 py-2.5 rounded-xl font-medium text-foreground hover:bg-white transition-colors"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   type="submit"
                   form="create-space-form"
                   disabled={createMutation.isPending}
